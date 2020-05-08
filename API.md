@@ -33,56 +33,56 @@ type: number
 ## ```posix-spawn/close```
 type: function
 
-[posix-spawn.janet#L98](posix-spawn.janet#L98)
+[posix-spawn.janet#L101](posix-spawn.janet#L101)
 
 ```
     (close p)
     
-    
+    Send the process it's close signal and wait for it to exit.
 ```
 
 ## ```posix-spawn/dup```
 type: function
 
-[posix-spawn.janet#L106](posix-spawn.janet#L106)
+[posix-spawn.janet#L111](posix-spawn.janet#L111)
 
 ```
     (dup f)
     
-    
+    Duplicate a file descriptor, sets the CLOEXEC flag.
 ```
 
 ## ```posix-spawn/pipe```
 type: function
 
-[posix-spawn.janet#L102](posix-spawn.janet#L102)
+[posix-spawn.janet#L106](posix-spawn.janet#L106)
 
 ```
     (pipe)
     
-    
+    Create a pair of files created with pipe. The files have the CLOEXEC flag set.
 ```
 
 ## ```posix-spawn/run```
 type: function
 
-[posix-spawn.janet#L90](posix-spawn.janet#L90)
+[posix-spawn.janet#L91](posix-spawn.janet#L91)
 
 ```
     (run args &keys kwargs)
     
-    
+    Equivalent to spawn followed by wait.
 ```
 
 ## ```posix-spawn/run2```
 type: function
 
-[posix-spawn.janet#L94](posix-spawn.janet#L94)
+[posix-spawn.janet#L96](posix-spawn.janet#L96)
 
 ```
     (run2 args kwargs)
     
-    
+    Equivalent to spawn2 followed by wait.
 ```
 
 ## ```posix-spawn/spawn```
@@ -162,7 +162,7 @@ type: function
 ```
     (wait p)
     
-    
+    Wait for the process to exist and return the exit status.
 ```
 
 

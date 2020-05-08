@@ -83,27 +83,33 @@ nil means no signals. Defaults to nil.
   [args &keys kwargs]
   (spawn2 args kwargs))
 
-(defn wait [p]
+(defn wait
   "Wait for the process to exist and return the exit status."
+  [p]
   (_posix-spawn/wait p))
 
-(defn run [args &keys kwargs]
+(defn run
   "Equivalent to spawn followed by wait."
+  [args &keys kwargs]
   (wait (spawn2 args kwargs)))
 
-(defn run2 [args kwargs]
+(defn run2
   "Equivalent to spawn2 followed by wait."
+  [args kwargs]
   (wait (spawn2 args kwargs)))
 
-(defn close [p]
+(defn close 
   "Send the process it's close signal and wait for it to exit."
+  [p]
   (_posix-spawn/close p))
 
-(defn pipe []
-  "Create a pair of files created with pipe and with the CLOEXEC flag set."
+(defn pipe
+  "Create a pair of files created with pipe. The files have the CLOEXEC flag set."
+  []
   (_posix-spawn/pipe))
 
-(defn dup [f]
+(defn dup
   "Duplicate a file descriptor, sets the CLOEXEC flag."
+  [f]
   (_posix-spawn/dup f))
 
