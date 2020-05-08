@@ -33,7 +33,7 @@ type: number
 ## ```posix-spawn/close```
 type: function
 
-[posix-spawn.janet#L94](posix-spawn.janet#L94)
+[posix-spawn.janet#L98](posix-spawn.janet#L98)
 
 ```
     (close p)
@@ -44,7 +44,7 @@ type: function
 ## ```posix-spawn/dup```
 type: function
 
-[posix-spawn.janet#L102](posix-spawn.janet#L102)
+[posix-spawn.janet#L106](posix-spawn.janet#L106)
 
 ```
     (dup f)
@@ -55,7 +55,7 @@ type: function
 ## ```posix-spawn/pipe```
 type: function
 
-[posix-spawn.janet#L98](posix-spawn.janet#L98)
+[posix-spawn.janet#L102](posix-spawn.janet#L102)
 
 ```
     (pipe)
@@ -70,6 +70,17 @@ type: function
 
 ```
     (run args &keys kwargs)
+    
+    
+```
+
+## ```posix-spawn/run2```
+type: function
+
+[posix-spawn.janet#L94](posix-spawn.janet#L94)
+
+```
+    (run2 args kwargs)
     
     
 ```
