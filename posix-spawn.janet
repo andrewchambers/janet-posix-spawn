@@ -107,9 +107,3 @@ nil means no signals. Defaults to nil.
   "Create a pair of files created with pipe. The files have the CLOEXEC flag set."
   []
   (_posix-spawn/pipe))
-
-(defn dup
-  "Duplicate a file descriptor, sets the CLOEXEC flag."
-  [f]
-  (_posix-spawn/dup f))
-

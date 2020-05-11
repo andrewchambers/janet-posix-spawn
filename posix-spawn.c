@@ -494,62 +494,12 @@ static Janet pspawn_pipe(int32_t argc, Janet *argv) {
     return janet_wrap_tuple(janet_tuple_end(t));
 }
 
-static Janet pspawn_dup(int32_t argc, Janet *argv) {
-    (void)argv;
-    janet_fixarity(argc, 1);
-
-    int jflags;
-
-    FILE *f = janet_getfile(argv, 0, &jflags);
-
-    char *fmode = NULL;
-
-    switch (jflags & (JANET_FILE_READ|JANET_FILE_WRITE|JANET_FILE_BINARY)) {
-    case JANET_FILE_READ|JANET_FILE_WRITE|JANET_FILE_BINARY:
-        fmode = "w+b";
-        break;
-    case JANET_FILE_READ|JANET_FILE_BINARY:
-        fmode = "rb";
-        break;
-    case JANET_FILE_WRITE|JANET_FILE_BINARY:
-        fmode = "wb";
-        break;
-    case JANET_FILE_READ:
-        fmode = "r";
-        break;
-    case JANET_FILE_WRITE:
-        fmode = "w";
-        break;
-    default:
-        janet_panicf("unable to dup file, bad flags");
-    }
-
-    int newfd = dup(fileno(f));
-    if (newfd < 0) {
-        janet_panicf("unable to dup file object - %s", strerror(errno));
-    }
-
-    if (fcntl(newfd, F_SETFD, FD_CLOEXEC) != 0) {
-        close(newfd);
-        janet_panicf("unable to initialize file object - %s", strerror(errno));
-    }
-
-    FILE *newf = fdopen(newfd, fmode);
-    if (!newf) {
-        close(newfd);
-        janet_panicf("unable to open new file object - %s", strerror(errno));
-    }
-
-    return janet_makefile(newf, jflags);
-}
-
 static const JanetReg cfuns[] = {
     {"spawn", primitive_pspawn, "(posix-spawn/spawn & args)\n\n"},
     {"signal", pspawn_signal, "(posix-spawn/signal p sig)\n\n"},
     {"close", pspawn_close, "(posix-spawn/close p)\n\n"},
     {"wait", pspawn_wait, "(posix-spawn/wait p)\n\n"},
     {"pipe", pspawn_pipe, "(posix-spawn/pipe)\n\n"},
-    {"dup", pspawn_dup, "(posix-spawn/dup f)\n\n"},
     {NULL, NULL, NULL}
 };
 
