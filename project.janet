@@ -7,8 +7,7 @@
 
 (declare-native
   :name "_jmod_posix_spawn"
-  :source ["posix-spawn.c"]
-  :cflag ["-g"])
+  :source ["posix-spawn.c"])
 
 (declare-source
   :name "posix-spawn"
