@@ -10,6 +10,5 @@
   :source ["posix-spawn.c"])
 
 (declare-source
-  :name "posix-spawn"
   :source ["posix-spawn.janet"])
 
