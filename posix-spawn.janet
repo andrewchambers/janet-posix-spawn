@@ -3,13 +3,18 @@
 (def POSIX_SPAWN_SETSIGMASK _posix-spawn/POSIX_SPAWN_RESETIDS)
 (def POSIX_SPAWN_SETSIGDEF _posix-spawn/POSIX_SPAWN_SETSIGDEF)
 (def POSIX_SPAWN_RESETIDS _posix-spawn/POSIX_SPAWN_RESETIDS)
-(def SIGINT _posix-spawn/SIGINT)
-(def SIGHUP _posix-spawn/SIGHUP)
-(def SIGPIPE _posix-spawn/SIGPIPE)
-(def SIGTERM _posix-spawn/SIGTERM)
-(def SIGKILL _posix-spawn/SIGKILL)
-(def SIGUSR1 _posix-spawn/SIGUSR1)
-(def SIGUSR2 _posix-spawn/SIGUSR2)
+
+# kill -l
+# It seems these numbers are standard enough, we 
+# define them instead of C so tree shaking can remove them in envs.
+(def SIGHUP 1)
+(def SIGINT 2)
+(def SIGQUIT 3)
+(def SIGKILL 9)
+(def SIGUSR1 10)
+(def SIGUSR2 12)
+(def SIGPIPE 13)
+(def SIGTERM 15)
 
 (defn spawn2
   "The same as spawn, but takes a dictionary of arguments instead of &keys style arguments."
