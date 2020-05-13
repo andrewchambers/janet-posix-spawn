@@ -1,6 +1,6 @@
 (import _jmod_posix_spawn :as _posix-spawn)
 
-(def POSIX_SPAWN_SETSIGMASK _posix-spawn/POSIX_SPAWN_RESETIDS)
+(def POSIX_SPAWN_SETSIGMASK _posix-spawn/POSIX_SPAWN_SETSIGMASK)
 (def POSIX_SPAWN_SETSIGDEF _posix-spawn/POSIX_SPAWN_SETSIGDEF)
 (def POSIX_SPAWN_RESETIDS _posix-spawn/POSIX_SPAWN_RESETIDS)
 
