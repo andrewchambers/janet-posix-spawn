@@ -32,7 +32,7 @@
   (default close-signal SIGTERM)
   (default sig-default :all)
   (default attr-flags
-    (comptime (bor POSIX_SPAWN_SETSIGMASK POSIX_SPAWN_SETSIGDEF POSIX_SPAWN_RESETIDS)))
+    (comptime (bor POSIX_SPAWN_SETSIGMASK POSIX_SPAWN_SETSIGDEF)))
   (_posix-spawn/spawn cmd args close-signal file-actions env attr-flags sig-default sig-mask))
 
 (defn spawn
@@ -72,7 +72,7 @@ The process environment, defaults to (os/environ)
 :attr-flags
 
 A set of spawn flags, see the posix_spawn(3) man page for details.
-Defaults to POSIX_SPAWN_SETSIGMASK|POSIX_SPAWN_SETSIGDEF|POSIX_SPAWN_RESETIDS.
+Defaults to POSIX_SPAWN_SETSIGMASK|POSIX_SPAWN_SETSIGDEF.
 
 :sig-default
 
