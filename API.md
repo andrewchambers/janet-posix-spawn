@@ -41,17 +41,6 @@ type: function
     Send the process it's close signal and wait for it to exit.
 ```
 
-## ```posix-spawn/dup```
-type: function
-
-[posix-spawn.janet#L111](posix-spawn.janet#L111)
-
-```
-    (dup f)
-    
-    Duplicate a file descriptor, sets the CLOEXEC flag.
-```
-
 ## ```posix-spawn/pipe```
 type: function
 
