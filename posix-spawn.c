@@ -8,13 +8,11 @@
 #include <unistd.h>
 #include <spawn.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <unistd.h>
 
 #include <janet.h>
 
@@ -470,8 +468,19 @@ static Janet pspawn_pipe(int32_t argc, Janet *argv) {
     janet_fixarity(argc, 0);
 
     int mypipe[2];
+#ifdef __APPLE__
+    if (pipe(mypipe) < 0)
+        janet_panicf("unable to allocate pipe - %s", strerror(errno));
+
+    if (fcntl(mypipe[0], F_SETFD, FD_CLOEXEC) < 0)
+        janet_panicf("unable to set pipe FD_CLOEXEC - %s", strerror(errno));
+
+    if (fcntl(mypipe[1], F_SETFD, FD_CLOEXEC) < 0)
+        janet_panicf("unable to set pipe FD_CLOEXEC - %s", strerror(errno));
+#else
     if (pipe2(mypipe, O_CLOEXEC) < 0)
         janet_panicf("unable to allocate pipe - %s", strerror(errno));
+#endif
 
     FILE *p1 = fdopen(mypipe[0], "rb");
     FILE *p2 = fdopen(mypipe[1], "wb");
