@@ -157,7 +157,7 @@ static int process_get(void *ptr, Janet key, Janet *out) {
 }
 
 static const JanetAbstractType process_type = {
-    "pspawn/process", process_gc, NULL, process_get, JANET_ATEND_GET
+    "posix-spawn/process", process_gc, NULL, process_get, JANET_ATEND_GET
 };
 
 static const char *arg_string(Janet v) {
@@ -467,33 +467,39 @@ static Janet pspawn_pipe(int32_t argc, Janet *argv) {
     (void)argv;
     janet_fixarity(argc, 0);
 
-    int mypipe[2];
+    int fds[2];
 #ifdef __APPLE__
-    if (pipe(mypipe) < 0)
+    if (pipe(fds) < 0)
         janet_panicf("unable to allocate pipe - %s", strerror(errno));
 
-    if (fcntl(mypipe[0], F_SETFD, FD_CLOEXEC) < 0)
+    if (fcntl(fds[0], F_SETFD, FD_CLOEXEC) < 0) {
+        close(fds[0]);
+        close(fds[1]);
         janet_panicf("unable to set pipe FD_CLOEXEC - %s", strerror(errno));
+    }
 
-    if (fcntl(mypipe[1], F_SETFD, FD_CLOEXEC) < 0)
+    if (fcntl(fds[1], F_SETFD, FD_CLOEXEC) < 0){
+        close(fds[0]);
+        close(fds[1]);
         janet_panicf("unable to set pipe FD_CLOEXEC - %s", strerror(errno));
+    }
 #else
-    if (pipe2(mypipe, O_CLOEXEC) < 0)
+    if (pipe2(fds, O_CLOEXEC) < 0)
         janet_panicf("unable to allocate pipe - %s", strerror(errno));
 #endif
 
-    FILE *p1 = fdopen(mypipe[0], "rb");
-    FILE *p2 = fdopen(mypipe[1], "wb");
+    FILE *p1 = fdopen(fds[0], "rb");
+    FILE *p2 = fdopen(fds[1], "wb");
     if (!p1 || !p2) {
         if(p1)
             fclose(p1);
         else
-            close(mypipe[0]);
+            close(fds[0]);
 
         if(p2)
             fclose(p2);
         else
-            close(mypipe[1]);
+            close(fds[1]);
         janet_panicf("unable to create file objects - %s", strerror(errno));
     }
 
