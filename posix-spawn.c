@@ -173,6 +173,7 @@ static const char *arg_string(Janet v) {
 static Janet primitive_pspawn(int32_t argc, Janet *argv) {
     janet_fixarity(argc, 8);
 
+    int want_errorf;
     char *error_msg;
     Janet error_ctx;
     const char *pcmd;
@@ -192,7 +193,8 @@ static Janet primitive_pspawn(int32_t argc, Janet *argv) {
 
     /* This function does not panic, it only has one exit point to simplify cleanup. */
 #define PSPAWN_ERROR(M) do { error_msg = M; goto done; } while (0);
-#define PSPAWN_ERRORF(M, V) do { error_msg = M; error_ctx = V; goto done; } while (0);
+#define PSPAWN_ERRORF(M, V) do { want_errorf = 1; error_msg = M; error_ctx = V; goto done; } while (0);
+    want_errorf = 0;
     error_msg = NULL;
     error_ctx = janet_wrap_nil();
 
@@ -404,10 +406,10 @@ done:
     }
 
     if (error_msg) {
-        if (janet_checktype(error_ctx, JANET_NIL)) {
-            janet_panic(error_msg);
-        } else {
+        if (want_errorf) {
             janet_panicf(error_msg, error_ctx);
+        } else {
+            janet_panic(error_msg);
         }
     }
 
