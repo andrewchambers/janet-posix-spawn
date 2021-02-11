@@ -166,8 +166,9 @@ static const char *arg_string(Janet v) {
         return (const char *)janet_unwrap_string(v);
     case JANET_SYMBOL:
         return (const char *)janet_unwrap_symbol(v);
+    default:
+        return NULL;
     }
-    return NULL;
 }
 
 static Janet primitive_pspawn(int32_t argc, Janet *argv) {
