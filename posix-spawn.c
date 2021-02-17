@@ -293,6 +293,7 @@ static Janet primitive_pspawn(int32_t argc, Janet *argv) {
     }
 
     int32_t nenviron = 0;
+
     if (!janet_checktype(argv[4], JANET_NIL)) {
 
         JanetDictView env;
@@ -304,7 +305,6 @@ static Janet primitive_pspawn(int32_t argc, Janet *argv) {
         if (!penviron)
             PSPAWN_ERROR("no memory");
 
-        int32_t nenviron = 0;
         for (int32_t i = 0; i < env.cap; i++) {
             const JanetKV *kv = env.kvs + i;
 
