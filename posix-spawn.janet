@@ -103,6 +103,11 @@ nil means no signals. Defaults to nil.
   [args kwargs]
   (wait (spawn2 args kwargs)))
 
+(defn signal
+  "Send a process an os signal."
+  [p sig]
+  (_posix-spawn/signal p sig))
+
 (defn close 
   "Send the process it's close signal and wait for it to exit."
   [p]
