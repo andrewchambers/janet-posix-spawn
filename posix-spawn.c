@@ -371,6 +371,10 @@ static Janet primitive_pspawn(int32_t argc, Janet *argv) {
     SIGSETARG(sig_mask_set, 7);
 #undef SIGSETARG
 
+    if (posix_spawnattr_setflags(pattr, POSIX_SPAWN_SETSIGMASK) != 0) {
+        PSPAWN_ERROR("unable to setflags");
+    }
+
     if (posix_spawnattr_setsigdefault(pattr, &sig_dflt_set) != 0) {
         PSPAWN_ERROR("unable to sig default");
     }
